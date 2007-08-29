@@ -1,0 +1,29 @@
+                                                      -*- indented-text -*-
+Project:    ezRobi Mega-32
+Time-stamp: <03/05/13 09:04:05 jd>
+----------------------------------------------------------------------------
+
+Welcome to `ezRobi', a GPL'd free embedded application framework to
+ease robotics.
+
+`ezRobi' is designed to help beginners to easily develop the firmware
+for small autonomous robotics. The current release is based on the PCB
+of Alexander Wiedekind-Klein. The used uController is a cheap Atmel
+AVR Mega32.
+
+One note about the term `framework'. I call this code a `framework'
+for embedded applications (firmware) because it is used as a base for
+your own work. `ezRobi' gives you all the base stuff around your
+application, so you "only" have to add the logic. ;-)
+
+In order to compile this application, you can use the free AVR-GCC
+toolchain.
+
+To flash the firmware into the controller, you can use avrdude with
+one of these cheap ISP dongles.
+
+Have fun.
+
+--
+jdesch@users.berlios.de
+http://ezrobi.berlios.de/

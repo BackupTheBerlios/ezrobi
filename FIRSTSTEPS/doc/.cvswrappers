@@ -1,0 +1,4 @@
+*.xcf -k 'b'
+*.png -k 'b'
+*.pdf -k 'b'
+*.jpg -k 'b'
