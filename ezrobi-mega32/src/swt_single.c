@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: swt_single.c,v 1.1 2007/08/29 12:42:25 jdesch Exp $
+ * $Id: swt_single.c,v 1.2 2007/08/30 16:06:03 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -36,10 +36,10 @@
 
 #define __SWT_SINGLE_C__
 
+#include "cpu_avr.h"
 #include "swt_single.h"
 #ifdef __GNUC__
 #include <avr/interrupt.h>
-#include <avr/pgmspace.h>
 #endif
 
 #ifdef DEBUG_SWT
@@ -50,28 +50,6 @@
 /*+=========================================================================+*/
 /*|                      CONSTANT AND MACRO DEFINITIONS                     |*/
 /*`========================================================================='*/
-
-#define TIMER_CLK_STOP		0x00	// Timer Stopped
-#define TIMER_CLK_DIV1		0x01	// Timer clocked at F_CPU
-#define TIMER_CLK_DIV8		0x02	// Timer clocked at F_CPU/8
-#define TIMER_CLK_DIV64		0x03	// Timer clocked at F_CPU/64
-#define TIMER_CLK_DIV256	0x04	// Timer clocked at F_CPU/256
-#define TIMER_CLK_DIV1024	0x05	// Timer clocked at F_CPU/1024
-#define TIMER_CLK_T_FALL	0x06	// Timer clocked at T falling edge
-#define TIMER_CLK_T_RISE	0x07	// Timer clocked at T rising edge
-#define TIMER_PRESCALE_MASK	0x07	// Timer Prescaler Bit-Mask
-
-#if 0
-#define TIMERRTC_CLK_STOP	0x00	// RTC Timer Stopped
-#define TIMERRTC_CLK_DIV1	0x01	// RTC Timer clocked at F_CPU
-#define TIMERRTC_CLK_DIV8	0x02	// RTC Timer clocked at F_CPU/8
-#define TIMERRTC_CLK_DIV32	0x03	// RTC Timer clocked at F_CPU/32
-#define TIMERRTC_CLK_DIV64	0x04	// RTC Timer clocked at F_CPU/64
-#define TIMERRTC_CLK_DIV128	0x05	// RTC Timer clocked at F_CPU/128
-#define TIMERRTC_CLK_DIV256	0x06	// RTC Timer clocked at F_CPU/256
-#define TIMERRTC_CLK_DIV1024	0x07	// RTC Timer clocked at F_CPU/1024
-#define TIMERRTC_PRESCALE_MASK	0x07	// RTC Timer Prescaler Bit-Mask
-#endif
 
 /* The value ticks/second is calculated with:
  *

@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: cpu_avr.c,v 1.1 2007/08/29 12:42:24 jdesch Exp $
+ * $Id: cpu_avr.c,v 1.2 2007/08/30 16:06:03 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -279,6 +279,28 @@ void cpuSetPWM3 ( BYTE Speed )
   #endif
 #endif
 }
+
+
+
+
+#if 0
+
+
+/* PWM TIMER ISR -- this ISR is (normally) not used. But you never know ;-)
+ */
+#ifdef __GNUC__
+ISR(SIG_OVERFLOW1)
+#elif __CODEVISIONAVR__
+interrupt [TIM1_OVF] void timer1_ovf_isr(void)
+#else
+#  error "MC-Module: unknown compiler"
+#endif
+{
+    // not enabled!
+}
+
+
+#endif
 
 
 /* }}} */

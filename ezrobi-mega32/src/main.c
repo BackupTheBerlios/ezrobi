@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: main.c,v 1.1 2007/08/29 12:42:24 jdesch Exp $
+ * $Id: main.c,v 1.2 2007/08/30 16:06:03 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -38,7 +38,6 @@
 #include "v24_single.h"
 #include "swt_single.h"
 #include "remote_protocol.h"
-//#include "motor_ctrl.h"
 //#include "fifo.h"
 #include "main.h"
 
@@ -254,6 +253,7 @@ static void setupSystem (void)
     v24PutsP(PSTR("**DEBUG-VERSION**\n"));
 #endif
     rp_InitRemote(handleCommands);
+    mc_InitMotorController();
     //fifo_init();
     swt_AddTimer(EV_ALIVE,swt_OneSecond(),SWT_RELOAD);
     sysSetRedLED(0);
@@ -308,9 +308,38 @@ static void handleDebugCommand ( WORD* Parm, WORD cnt )
 {
     if ( !Parm || !cnt )
     	return;
-#ifdef DEBUG
+#ifdef DEBUG_CMDS
     switch ( Parm[0] )
     {
+	case 1:			// switch motor drivers: parm[1]=on/off
+	    if ( cnt>1 )
+	    {
+		if (Parm[1]) mc_EnableMotors();
+		else mc_DisableMotors();
+	    }
+	    break;
+	case 2:			// start left motor: parm[1]=speed parm[2]=dir
+	    if ( cnt>2 )
+	    {
+		mc_StartLeftMotor(Parm[1]&0x00FF,Parm[2]);
+	    }
+	    break;
+	case 3:			// stop left motor
+	    mc_StopLeftMotor();
+	    break;
+	case 4:			// start right motor: parm[1]=speed parm[2]=dir
+	    if ( cnt>2 )
+	    {
+		mc_StartLeftMotor(Parm[1]&0x00FF,Parm[2]);
+	    }
+	    break;
+	case 5:			// stop right motor
+	    mc_StopRightMotor();
+	    break;
+	case 6:			// read raw keypad inputs
+	    v24PutWord(sysReadRawKeypad());
+	    break;
+
     	// here's the place to add 'debug only' command
     }
 #endif

@@ -1,21 +1,18 @@
 /* -*- Mode: C -*-
  *
- * $Id: cpu_avr.h,v 1.2 2007/08/30 16:06:03 jdesch Exp $
+ * $Id: motor_ctrl.h,v 1.1 2007/08/30 16:06:28 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
  * PROJECT: ezROBI Mega32
- * MODULE.: CPU_AVR.H: CPU specific declarations and functions
+ * MODULE.: MOTOR_CTRL.H: Header of the `motor control' module
  * AUTHOR.: jdesch
  * --------------------------------------------------------------------------
  * DESCRIPTION:
  *
- * This module defines and declares all the AVR related stuff. This means,
- * alle the code here is independent from the application code.
  * 
- * All the low level code that is part of the application is put into
- * system.c!
- * 
+ *
+ *
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,11 +31,13 @@
  * --------------------------------------------------------------------------
  * COMPILER-FLAGS:
  *
+ *
  * --------------------------------------------------------------------------
  */
 
-#ifndef __CPU_AVR_H__
-#define __CPU_AVR_H__
+#ifndef __MOTOR_CTRL_H__
+#define __MOTOR_CTRL_H__ 1
+
 #include "config.h"
 
 
@@ -46,38 +45,23 @@
 /*|                      CONSTANT AND MACRO DEFINITIONS                     |*/
 /*`========================================================================='*/
 
-/* Definitions for the delay passed to cpuDelay()
- */
-#define DEL_10MS            1
-#define DEL_50MS            5
-#define DEL_100MS          10
-#define DEL_250MS          25
-#define DEL_500MS          50
-#define DEL_1000MS        100
-
-
-/* Some constants for timer configuration...
- */
-#define TIMER_CLK_STOP		0x00	// Timer Stopped
-#define TIMER_CLK_DIV1		0x01	// Timer clocked at F_CPU
-#define TIMER_CLK_DIV8		0x02	// Timer clocked at F_CPU/8
-#define TIMER_CLK_DIV64		0x03	// Timer clocked at F_CPU/64
-#define TIMER_CLK_DIV256	0x04	// Timer clocked at F_CPU/256
-#define TIMER_CLK_DIV1024	0x05	// Timer clocked at F_CPU/1024
-#define TIMER_CLK_T_FALL	0x06	// Timer clocked at T falling edge
-#define TIMER_CLK_T_RISE	0x07	// Timer clocked at T rising edge
-#define TIMER_PRESCALE_MASK	0x07	// Timer Prescaler Bit-Mask
-
+/*             .-----------------------------------------------.             */
+/* ___________/  local macro declaration                        \___________ */
+/*            `-------------------------------------------------'            */
 
 /*+=========================================================================+*/
 /*|                            TYPEDECLARATIONS                             |*/
 /*`========================================================================='*/
 
-#if CFG_USE_8BIT_ADC
-typedef BYTE T_ADC;
-#else
-typedef WORD T_ADC;
-#endif
+enum MC_MOTORSTATES
+{
+    MC_MOTOR_DISABLED=0,		     /* motor is disabled ;-) */
+    MC_MOTOR_STOPPED,			     /* motor is not started */
+    MC_MOTOR_RUNNING,			     /* motor is running ok */
+    MC_MOTOR_SHUTDOWN,			     /* motor fault detected */
+    MC_MOTOR_OVERLOAD			     /* motor current to high */
+};
+
 
 /*+=========================================================================+*/
 /*|                            PUBLIC VARIABLES                             |*/
@@ -87,21 +71,37 @@ typedef WORD T_ADC;
 /*|                     PROTOTYPES OF GLOBAL FUNCTIONS                      |*/
 /*`========================================================================='*/
 
-void cpuInitWatchDog (void);
-void cpuResetWatchDog (void);
+/*             .-----------------------------------------------.             */
+/* ___________/  Setup and Configuration                        \___________ */
+/*            `-------------------------------------------------'            */
 
-void cpuDelay (unsigned int time);
-void cpuDelay_us (unsigned short time_us);
+void mc_InitMotorController (void);
 
-void cpuInitADC (void);
-T_ADC cpuReadADC (BYTE Channel);
 
-void cpuInitPWM (void );
-void cpuSetPWM1 (BYTE Speed);
-void cpuSetPWM2 (BYTE Speed);
-void cpuSetPWM3 (BYTE Speed);
+/*             .-----------------------------------------------.             */
+/* ___________/  Group...                                       \___________ */
+/*            `-------------------------------------------------'            */
+
+void mc_EnableMotors (void);
+
+void mc_DisableMotors (void);
+
+void mc_StartLeftMotor (BYTE Speed, BOOL Forward);
+
+void mc_StartRightMotor (BYTE Speed, BOOL Forward);
+
+void mc_StopLeftMotor (void);
+
+void mc_StopRightMotor (void);
+
+void mc_ForceStopMotors (void);
+
+int mc_CheckLeftMotorState (void);
+
+int mc_CheckRightMotorState (void);
+
+
 
 #endif
-
 /* ==[End of file]========================================================== */
 

@@ -79,10 +79,10 @@ OBJDIR = ./.obj
 
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC = main.c cpu_avr.c system.c v24_single.c swt_single.c remote_protocol.c
+SRC = main.c cpu_avr.c system.c motor_ctrl.c
+# sensor.c
+SRC +=  v24_single.c swt_single.c remote_protocol.c
 SRC += application.c
-# motor_ctrl.c sensor.c
-#SRC += 
 
 
 # List C++ source files here. (C dependencies are automatically generated.)
@@ -131,7 +131,7 @@ CSTANDARD = -std=gnu99
 # Place -D or -U options here for C sources
 CDEFS = -DF_CPU=$(F_CPU)UL
 CDEFS += -DBOOT_UART
-
+CDEFS += -DDEBUG_CMDS
 
 # Place -D or -U options here for C++ sources
 CPPDEFS = -DF_CPU=$(F_CPU)UL

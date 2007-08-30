@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: application.c,v 1.1 2007/08/29 12:42:24 jdesch Exp $
+ * $Id: application.c,v 1.2 2007/08/30 16:06:03 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -104,6 +104,11 @@ void app_SystemStarted (void)
     
     // sample for an single (one time) timer event. This occures in 1 second.
     swt_AddTimer(EV_MY_FIRST,swt_OneSecond(),SWT_COUNTDOWN);
+
+    // if we don't want to way for a key, this is a possilbe place to globally
+    // enable the motor drivers. The drawback is the power consumption until
+    // the real start of your application...
+    mc_EnableMotors();
 }
 
 
