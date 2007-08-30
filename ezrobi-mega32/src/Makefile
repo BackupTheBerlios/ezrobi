@@ -132,6 +132,7 @@ CSTANDARD = -std=gnu99
 CDEFS = -DF_CPU=$(F_CPU)UL
 CDEFS += -DBOOT_UART
 CDEFS += -DDEBUG_CMDS
+CDEFS += -DDEBUG
 
 # Place -D or -U options here for C++ sources
 CPPDEFS = -DF_CPU=$(F_CPU)UL

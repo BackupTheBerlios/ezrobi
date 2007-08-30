@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: main.c,v 1.2 2007/08/30 16:06:03 jdesch Exp $
+ * $Id: main.c,v 1.3 2007/08/30 18:19:41 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -82,7 +82,7 @@ const flash_chr ProjectId[] =
 //flash_chr ProjectId[] = 
 //const char __attribute__((__progmem__)) ProjectId[]  = 
 //const char ProjectId[] __attribute__((__progmem__)) = 
-{PRJNAME" "__VERSION};
+{PRJNAME" "__VERSION"\n"};
 const flash_chr ProjectId_More[] = 
 //flash_str ProjectId_More = 
 //flash_chr ProjectId_More[] = 
@@ -277,7 +277,9 @@ static BOOL handleCommands ( BYTE cmd, WORD* Parm, WORD cnt )
 	case RP_CMD_INFO:
 	    v24PutsP(ProjectId);
 	    if ( cnt==1 && Parm[0]==1 )
+	    {
 	        v24PutsP(ProjectId_More);
+	    }
 	    break;
 	case RP_CMD_ECHO:
 	    v24PutsP(PSTR("Parms:\n"));
@@ -314,17 +316,20 @@ static void handleDebugCommand ( WORD* Parm, WORD cnt )
 	case 1:			// switch motor drivers: parm[1]=on/off
 	    if ( cnt>1 )
 	    {
-		if (Parm[1]) mc_EnableMotors();
-		else mc_DisableMotors();
+	    	v24PutsP(PSTR("DBG:motor-driver "));
+		if (Parm[1]) {mc_EnableMotors(); v24PutsP(PSTR("on\n"));}
+		else {mc_DisableMotors(); v24PutsP(PSTR("off\n"));}
 	    }
 	    break;
 	case 2:			// start left motor: parm[1]=speed parm[2]=dir
 	    if ( cnt>2 )
 	    {
+	    	v24PutsP(PSTR("DBG:start-motor\n"));
 		mc_StartLeftMotor(Parm[1]&0x00FF,Parm[2]);
 	    }
 	    break;
 	case 3:			// stop left motor
+    	    v24PutsP(PSTR("DBG:stop-motor\n"));
 	    mc_StopLeftMotor();
 	    break;
 	case 4:			// start right motor: parm[1]=speed parm[2]=dir
@@ -337,7 +342,12 @@ static void handleDebugCommand ( WORD* Parm, WORD cnt )
 	    mc_StopRightMotor();
 	    break;
 	case 6:			// read raw keypad inputs
+	    v24PutsP(PSTR("DBG:keys\n"));
 	    v24PutWord(sysReadRawKeypad());
+	    break;
+	case 7:			// read raw keypad inputs
+	    v24PutsP(PSTR("DBG:PWM1(10)\n"));
+	    cpuSetPWM1(10);
 	    break;
 
     	// here's the place to add 'debug only' command

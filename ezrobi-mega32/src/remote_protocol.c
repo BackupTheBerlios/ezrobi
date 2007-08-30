@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: remote_protocol.c,v 1.1 2007/08/29 12:42:24 jdesch Exp $
+ * $Id: remote_protocol.c,v 1.2 2007/08/30 18:19:41 jdesch Exp $
  * -----------------------------------------------------------------------
  * Copyright (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -42,6 +42,8 @@
 /*+=========================================================================+*/
 /*|                      CONSTANT AND MACRO DEFINITIONS                     |*/
 /*`========================================================================='*/
+
+//#define DEBUG_RP 1
 
 #if (RP_MAX_PARAMETERS < 3)
 # error "fatal: remote_protocol needs at least three parameters!"
@@ -187,8 +189,13 @@ void rp_ParseCommand ( void )
         switch (state)
 	{
             case csSTART:		     /* --- The Beginning */
+#ifdef DEBUG_RP
+	        v24PutsP(PSTR("RP:ccSTART\n-->"));
+	        v24Putc(c); v24PutsP(PSTR("<--\n")); 
+#endif
                 Command=c;
                 ParmCnt=0;		     /* clear old parms */
+                Parm[ParmCnt]=0;
                 HaveParm=FALSE;
 		NewParmStarted=TRUE;
 		ParmType=ptDEZ;
@@ -198,6 +205,9 @@ void rp_ParseCommand ( void )
             case csPARMS:		     /* --- collect parameters */
                 /* wait for new characters
                  */
+#ifdef DEBUG_RP
+		v24PutsP(PSTR("RP:ccPARMS\n"));
+#endif
                 wTmp=TIMEOUT;
                 cpuResetWatchDog();
                 while ( --wTmp )
@@ -210,6 +220,9 @@ void rp_ParseCommand ( void )
                 }
                 if ( wTmp==0 )
 		{
+#ifdef DEBUG_RP
+		    v24PutsP(PSTR("RP:timeout\n"));
+#endif
                     Command=0;
                     return;
                 }
@@ -223,11 +236,17 @@ void rp_ParseCommand ( void )
                     if ( HaveParm )	         /* not the first parm? */
 		    {
 			++ParmCnt;	         /* than go on */
+#ifdef DEBUG_RP
+		        v24PutsP(PSTR("RP:++ParmCnt\n"));
+#endif
 		    }
-		    ParmType=ptDEZ;	         /* owr default type */
+		    ParmType=ptDEZ;	         /* our default type */
 		    NewParmStarted=TRUE;
                     if ( ParmCnt==MAXPARMS )
 		    {
+#ifdef DEBUG_RP
+		        v24PutsP(PSTR("RP:MAXPARMS\n"));
+#endif
                         ParmCnt=Command=0;
 			v24Putc(ERR);
                         return;
@@ -240,11 +259,18 @@ void rp_ParseCommand ( void )
 		    {
 			++ParmCnt;               /* terminate parm */
 		    }
+#ifdef DEBUG_RP
+		    v24PutsP(PSTR("RP:EOC\n--->#"));
+	            v24Putc('0'+ParmCnt); v24PutsP(PSTR("<--\n")); 
+#endif
                     state=csEXEC;                /* next state.. */
                     break;
                 }
 		else if ( c == ESC )             /* seq. aborted? */
 		{
+#ifdef DEBUG_RP
+		    v24PutsP(PSTR("RP:abort\n"));
+#endif
                     HaveParm=FALSE;
 		    NewParmStarted=FALSE;
                     Command=ParmCnt=0;
@@ -252,6 +278,9 @@ void rp_ParseCommand ( void )
                 }
 		else if ( NewParmStarted && c=='#' )
 		{
+#ifdef DEBUG_RP
+		    v24PutsP(PSTR("RP:hextype\n"));
+#endif
 		    ParmType=ptHEX;
 		}
 		else
@@ -271,19 +300,27 @@ void rp_ParseCommand ( void )
 		    }
 		    if ( send_err )
 		    {
+#ifdef DEBUG_RP
+		        v24PutsP(PSTR("RP:parse-err\n"));
+#endif
 			ParmCnt=Command=0;
+                        state = csSTOP;
 			v24Putc(ERR);
 		    }
 		}
 		break;
 
             case csEXEC:		     /* --- Execute Command */
-    		cpuResetWatchDog();
+#ifdef DEBUG_RP
+		v24PutsP(PSTR("RP:ccEXEC\n"));
+#endif
+		cpuResetWatchDog();
     		if ( !__callb  )
     		{
 #ifdef DEBUG
 	v24PutsP(PSTR("RP:init: 0 pointer!\n"));
 #endif
+		    v24Putc(ERR);
 		    return;
 		}
 		if ( __callb(Command,Parm,ParmCnt) )
@@ -295,6 +332,9 @@ void rp_ParseCommand ( void )
                 break;
 
             case csSTOP:		     /* --- Parser finished */
+#ifdef DEBUG_RP
+		v24PutsP(PSTR("RP:ccSTOP\n"));
+#endif
                 break;
             default:
                 state=csSTOP;
@@ -313,22 +353,17 @@ void rp_ParseCommand ( void )
 
 static BOOL parseDezParm ( BYTE c )
 {
+#ifdef DEBUG_RP
+    v24PutsP(PSTR("RP:parseDezParm("));
+    v24Putc(c);
+    v24PutsP(PSTR(")\n"));
+#endif
     if ( ! IS_DEZ_DIGIT(c) )
 	return FALSE;
-
-    if ( Parm[ParmCnt] == 6553 )
-    {
-	if ( c<='5' )
-	{
-	    Parm[ParmCnt] *= 10;
-	    Parm[ParmCnt] += (c-'0');
-	}
-	else
-	    return FALSE;
-    }
-    else if ( Parm[ParmCnt] > 6553 )
+    if ( Parm[ParmCnt]==6553 && c>'5' )
 	return FALSE;
-
+    if ( Parm[ParmCnt]>6553 )
+	return FALSE;
     Parm[ParmCnt] *= 10;
     Parm[ParmCnt] += (c-'0');
     return TRUE;
@@ -337,6 +372,11 @@ static BOOL parseDezParm ( BYTE c )
 
 static BOOL parseHexParm ( BYTE c )
 {
+#ifdef DEBUG_RP
+    v24PutsP(PSTR("RP:parseHexParm("));
+    v24Putc(c);
+    v24PutsP(PSTR(")\n"));
+#endif
     if ( ! IS_HEX_DIGIT(c) )
 	return FALSE;
     if ( Parm[ParmCnt] > 0xFFF )
