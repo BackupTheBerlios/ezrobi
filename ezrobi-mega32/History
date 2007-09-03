@@ -12,8 +12,14 @@
 +=========================================================================+
 
 
+2007/9/3	jd
 
-2007/8/29	'first steps'
+To allow multiple "applications" to be build, we start moving the application
+code into a separate directory. This is the last build where all files are
+inside one directory. This build is tagged as "ALL_IN_ONE".
+
+
+2007/8/29	jd -- 'first steps'
 
 The first code is checked in to the CVS repository.
 
