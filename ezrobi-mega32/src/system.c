@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: system.c,v 1.1 2007/08/29 12:42:25 jdesch Exp $
+ * $Id: system.c,v 1.2 2007/09/03 13:44:18 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -35,6 +35,9 @@
 #include "system.h"
 #include "cpu_avr.h"
 
+
+
+#define DEBUG_KEY_IN 1
 
 
 /*+=========================================================================+*/
@@ -255,9 +258,15 @@ static WORD mergedKeypadPins (void)
     SET_SW2_IN();
     SET_SW3_IN();
 
+#ifdef DEBUG_KEY_IN
+    out_MP1 = 0;
+#endif
     if ( in_SW1==0 ) w |= SYS_SW1_KEY;
     if ( in_SW2==0 ) w |= SYS_SW2_KEY;
     if ( in_SW3==0 ) w |= SYS_SW3_KEY;
+#ifdef DEBUG_KEY_IN
+    out_MP1 = 1;
+#endif
 
     SET_SW1_OUT();
     SET_SW2_OUT();

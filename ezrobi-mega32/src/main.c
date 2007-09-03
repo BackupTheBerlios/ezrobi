@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: main.c,v 1.4 2007/09/03 05:10:47 jdesch Exp $
+ * $Id: main.c,v 1.5 2007/09/03 13:44:18 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -116,7 +116,7 @@ MAKE_LOCAL_FIFO(BYTE)
 
 static void setupSystem (void);
 static BOOL handleCommands (BYTE cmd, WORD* Parm, WORD cnt);
-static void handleDebugCommand (WORD* Parm, WORD cnt);
+static BOOL handleDebugCommand (WORD* Parm, WORD cnt);
 static void localTimerHandler (BYTE event);
 
 #if 0
@@ -292,16 +292,16 @@ static BOOL handleCommands ( BYTE cmd, WORD* Parm, WORD cnt )
 	    break;
 	default:
 	    // call the handler of the application logic...
-	    app_HandleCommand(cmd,Parm,cnt);
+	    return app_HandleCommand(cmd,Parm,cnt);
     }
     return TRUE;
 }
 
 
-static void handleDebugCommand ( WORD* Parm, WORD cnt )
+static BOOL handleDebugCommand ( WORD* Parm, WORD cnt )
 {
     if ( !Parm || !cnt )
-    	return;
+    	return FALSE;
 #ifdef ENAB_DEBUG_CMDS
     switch ( Parm[0] )
     {
@@ -311,14 +311,14 @@ static void handleDebugCommand ( WORD* Parm, WORD cnt )
 	    	v24PutsP(PSTR("DBG:motor-driver "));
 		if (Parm[1]) {mc_EnableMotors(); v24PutsP(PSTR("on\n"));}
 		else {mc_DisableMotors(); v24PutsP(PSTR("off\n"));}
-	    }
+	    } else return FALSE;
 	    break;
 	case 2:			// start left motor: parm[1]=speed parm[2]=dir
 	    if ( cnt>2 )
 	    {
 	    	v24PutsP(PSTR("DBG:start-motor\n"));
 		mc_StartLeftMotor(Parm[1]&0x00FF,Parm[2]);
-	    }
+	    } else return FALSE;
 	    break;
 	case 3:			// stop left motor
     	    v24PutsP(PSTR("DBG:stop-motor\n"));
@@ -327,8 +327,8 @@ static void handleDebugCommand ( WORD* Parm, WORD cnt )
 	case 4:			// start right motor: parm[1]=speed parm[2]=dir
 	    if ( cnt>2 )
 	    {
-		mc_StartLeftMotor(Parm[1]&0x00FF,Parm[2]);
-	    }
+		mc_StartRightMotor(Parm[1]&0x00FF,Parm[2]);
+	    } else return FALSE;
 	    break;
 	case 5:			// stop right motor
 	    mc_StopRightMotor();
@@ -337,14 +337,23 @@ static void handleDebugCommand ( WORD* Parm, WORD cnt )
 	    v24PutsP(PSTR("DBG:keys\n"));
 	    v24PutWord(sysReadRawKeypad());
 	    break;
-	case 7:			// read raw keypad inputs
+	case 7:
 	    v24PutsP(PSTR("DBG:PWM1(150)\n"));
 	    cpuSetPWM1(150);
 	    break;
+	case 8:
+	    v24PutsP(PSTR("DBG:PWM2(150)\n"));
+	    cpuSetPWM2(150);
+	    break;
 
     	// here's the place to add 'debug only' command
+
+	// return FALSE if unknown...
+	default:
+	    return FALSE;
     }
 #endif
+    return TRUE;
 }
 
 static void localTimerHandler ( BYTE event )

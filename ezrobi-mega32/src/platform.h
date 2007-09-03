@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: platform.h,v 1.1 2007/08/29 12:42:25 jdesch Exp $
+ * $Id: platform.h,v 1.2 2007/09/03 13:44:18 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -72,7 +72,7 @@
 
 #define DIR_PORT_A  BIN2BYTE(00000000)	     /*  */
 #define DIR_PORT_B  BIN2BYTE(11111111)	     /*  */
-#define DIR_PORT_C  BIN2BYTE(00000000)	     /*  */
+#define DIR_PORT_C  BIN2BYTE(11000000)	     /*  */
 #define DIR_PORT_D  BIN2BYTE(11110010)	     /* 0xF2 */
 
 /* }}} */
@@ -134,8 +134,8 @@
  */
 /* {{{ */
 
-#define in_MP1                 __PIN(PINC,6)
-#define in_MP2                 __PIN(PINC,7)
+#define out_MP1                __PIN(PORTC,6)
+#define out_MP2                __PIN(PORTC,7)
 
 /* }}} */
 
