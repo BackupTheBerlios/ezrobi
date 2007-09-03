@@ -11,8 +11,16 @@
 |                    Copyright (c) Dipl.-Ing. J. Desch                    |
 +=========================================================================+
 
-
 2007/9/3	jd
+
+The main Makefile supports different applications now. To select an
+application, call make with "APP=name". "name" must be a directory below
+src/! It must contain a Makefile snippet named Makefile.inc which add the
+source files to the variable SRC. The generated files are stored in this
+directory too. The default application is "demo". Just have a look at it.
+
+
+2007/9/2	jd
 
 To allow multiple "applications" to be build, we start moving the application
 code into a separate directory. This is the last build where all files are

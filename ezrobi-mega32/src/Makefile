@@ -39,6 +39,9 @@
 # To rebuild project do "make clean" then "make all".
 #----------------------------------------------------------------------------
 
+ifndef APP
+APP = demo
+endif
 
 # MCU name
 MCU = atmega32
@@ -72,17 +75,17 @@ LOWFUSE  = 0xff
 FORMAT = ihex
 
 # Target file name (without extension).
-TARGET = ezrobi
+TARGET = $(APP)/ezrobi
 
 # Object files directory
 OBJDIR = ./.obj
 
 
+
 # List C source files here. (C dependencies are automatically generated.)
 SRC = main.c cpu_avr.c system.c motor_ctrl.c
 # sensor.c
-SRC +=  v24_single.c swt_single.c remote_protocol.c
-SRC += application.c
+SRC += v24_single.c swt_single.c remote_protocol.c
 
 
 # List C++ source files here. (C dependencies are automatically generated.)
@@ -117,7 +120,7 @@ DEBUG = stabs
 #     Each directory must be seperated by a space.
 #     Use forward slashes for directory separators.
 #     For a directory that has spaces, enclose it in quotes.
-EXTRAINCDIRS =
+EXTRAINCDIRS = -I ./$(APPS)
 
 
 # Compiler flag to set the C Standard level.
@@ -128,15 +131,20 @@ EXTRAINCDIRS =
 CSTANDARD = -std=gnu99
 
 
+CDEFS=
+CPPDEFS=
+include $(APP)/Makefile.inc
+
+
 # Place -D or -U options here for C sources
-CDEFS = -DF_CPU=$(F_CPU)UL
+CDEFS += -DF_CPU=$(F_CPU)UL
 CDEFS += -DBOOT_UART
 CDEFS += -DENAB_DEBUG_CMDS
 CDEFS += -DDEBUG_MC
 CDEFS += -DDEBUG
 
 # Place -D or -U options here for C++ sources
-CPPDEFS = -DF_CPU=$(F_CPU)UL
+CPPDEFS += -DF_CPU=$(F_CPU)UL
 #CPPDEFS += -D__STDC_LIMIT_MACROS
 #CPPDEFS += -D__STDC_CONSTANT_MACROS
 
@@ -592,7 +600,7 @@ $(OBJDIR)/%.o : %.cpp
 $(OBJDIR)/%.o : %.S
 	@echo
 	@echo $(MSG_ASSEMBLING) $<
-	$(CC) -c $(ASFLAGS) $< -o $@
+	$(CC) -c $(ASFLAGS) $< -o $(subst $(APP)/,,$@)
 
 
 # Create preprocessed source for use in sending a bug report.
@@ -622,6 +630,7 @@ clean_list :
 
 # Create object files directory
 $(shell mkdir $(OBJDIR) 2>/dev/null)
+$(shell mkdir $(OBJDIR)/$(APP) 2>/dev/null)
 
 
 # Include the dependency files.
