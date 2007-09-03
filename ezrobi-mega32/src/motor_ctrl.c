@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: motor_ctrl.c,v 1.1 2007/08/30 16:06:28 jdesch Exp $
+ * $Id: motor_ctrl.c,v 1.2 2007/09/03 05:10:47 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -42,8 +42,9 @@
 #include <avr/interrupt.h>
 #endif
 
-#ifdef DEBUG_SWT
-#include "debugging.h"
+#ifdef DEBUG_MC
+//#include "debugging.h"
+#include "v24_single.h"
 #endif
 
 
@@ -84,7 +85,7 @@
 
 
 #ifdef DEBUG_MC
-#define DBG_PUTS(str) dbg_ReportStr(str)
+#define DBG_PUTS(str) v24PutsP(str) // dbg_ReportStr(str)
 #else
 #define DBG_PUTS(str)
 #endif
@@ -160,6 +161,7 @@ void mc_InitMotorController (void)
     /* Setup of variables
      */
     cpuResetWatchDog();
+    DBG_PUTS(PSTR("MC:init\n"));
     enterCritical();
     mc_OneSecond=F_CPU/(MC_TIMER_PRESCALE_VALUE*MC_TICKS_NEEDED);
 
@@ -188,6 +190,7 @@ void mc_InitMotorController (void)
 void mc_EnableMotors (void)
 {
     cpuResetWatchDog();
+    DBG_PUTS(PSTR("MC:enable-motors\n"));
     enableLeftMotor(TRUE);
     enableRightMotor(TRUE);
     mc_ForceStopMotors();
@@ -196,6 +199,7 @@ void mc_EnableMotors (void)
 void mc_DisableMotors (void)
 {
     cpuResetWatchDog();
+    DBG_PUTS(PSTR("MC:disable-motors\n"));
     mc_ForceStopMotors();
     enableLeftMotor(FALSE);
     enableRightMotor(FALSE);
@@ -204,10 +208,15 @@ void mc_DisableMotors (void)
 void mc_StartLeftMotor ( BYTE Speed, BOOL Forward )
 {
     cpuResetWatchDog();
+    DBG_PUTS(PSTR("MC:start-left\n"));
     if ( !LeftMotorEnabled )
+    {
+        DBG_PUTS(PSTR("`--abort\n"));
 	return;
+    }
     LeftMotorForward = Forward;
     out_MOTOR1_DIR = Forward;
+    
     enterCritical();
     cpuSetPWM1(Speed);
 
@@ -227,13 +236,18 @@ void mc_StartLeftMotor ( BYTE Speed, BOOL Forward )
 void mc_StartRightMotor ( BYTE Speed, BOOL Forward )
 {
     cpuResetWatchDog();
+    DBG_PUTS(PSTR("MC:start-right\n"));
     if ( !RightMotorEnabled )
+    {
+        DBG_PUTS(PSTR("`--abort\n"));
 	return;
+    }
     RightMotorForward = Forward;
     out_MOTOR2_DIR = Forward;
+    
     enterCritical();
     cpuSetPWM2(Speed);
-
+    
     /* TODO: For now we clear the counters. Later we must check the direction
      * and than clear the right one.
      *
@@ -250,24 +264,28 @@ void mc_StartRightMotor ( BYTE Speed, BOOL Forward )
 void mc_StopLeftMotor ( void )
 {
     cpuResetWatchDog();
+    DBG_PUTS(PSTR("MC:stop-left\n"));
     if ( LeftMotorRunning )
     {
 	enterCritical();
 	cpuSetPWM1(0);
 	LeftMotorRunning = TRUE;
 	leaveCritical();
+        DBG_PUTS(PSTR("`--done\n"));	
     }
 }
 
 void mc_StopRightMotor ( void )
 {
     cpuResetWatchDog();
+    DBG_PUTS(PSTR("MC:stop-right\n"));
     if ( RightMotorRunning )
     {
 	enterCritical();
 	cpuSetPWM2(0);
 	RightMotorRunning = TRUE;
 	leaveCritical();
+        DBG_PUTS(PSTR("`--done\n"));
     }
 }
 
@@ -277,6 +295,7 @@ void mc_StopRightMotor ( void )
 void mc_ForceStopMotors ( void )
 {
     cpuResetWatchDog();
+    DBG_PUTS(PSTR("MC:force-stop\n"));
     enterCritical();
     forceStopMotors();
     leaveCritical();
@@ -290,6 +309,7 @@ void mc_ForceStopMotors ( void )
  */
 int mc_CheckLeftMotorState ( void )
 {
+    DBG_PUTS(PSTR("MC:check-left\n"));
     if ( !LeftMotorEnabled )
 	return MC_MOTOR_SHUTDOWN;
     return (LeftMotorRunning)?MC_MOTOR_RUNNING:MC_MOTOR_STOPPED;
@@ -303,6 +323,7 @@ int mc_CheckLeftMotorState ( void )
  */
 int mc_CheckRightMotorState ( void )
 {
+    DBG_PUTS(PSTR("MC:check-right\n"));
     if ( !RightMotorEnabled )
 	return MC_MOTOR_SHUTDOWN;
     return (RightMotorRunning)?MC_MOTOR_RUNNING:MC_MOTOR_STOPPED;

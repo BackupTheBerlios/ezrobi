@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: main.c,v 1.3 2007/08/30 18:19:41 jdesch Exp $
+ * $Id: main.c,v 1.4 2007/09/03 05:10:47 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -78,16 +78,8 @@ enum LOCAL_MESSAGES
 /*`========================================================================='*/
 /* {{{ */
 const flash_chr ProjectId[] = 
-//flash_str ProjectId = 
-//flash_chr ProjectId[] = 
-//const char __attribute__((__progmem__)) ProjectId[]  = 
-//const char ProjectId[] __attribute__((__progmem__)) = 
 {PRJNAME" "__VERSION"\n"};
 const flash_chr ProjectId_More[] = 
-//flash_str ProjectId_More = 
-//flash_chr ProjectId_More[] = 
-//const char __attribute__((__progmem__)) ProjectId_More[] = 
-//const char ProjectId_More[] __attribute__((__progmem__)) = 
 {"BLD-"__BUILDLEVEL"  Compiled "__DATE__" "__TIME__"\n"};
 
 //T_SysVar SysVar;
@@ -310,7 +302,7 @@ static void handleDebugCommand ( WORD* Parm, WORD cnt )
 {
     if ( !Parm || !cnt )
     	return;
-#ifdef DEBUG_CMDS
+#ifdef ENAB_DEBUG_CMDS
     switch ( Parm[0] )
     {
 	case 1:			// switch motor drivers: parm[1]=on/off
@@ -346,8 +338,8 @@ static void handleDebugCommand ( WORD* Parm, WORD cnt )
 	    v24PutWord(sysReadRawKeypad());
 	    break;
 	case 7:			// read raw keypad inputs
-	    v24PutsP(PSTR("DBG:PWM1(10)\n"));
-	    cpuSetPWM1(10);
+	    v24PutsP(PSTR("DBG:PWM1(150)\n"));
+	    cpuSetPWM1(150);
 	    break;
 
     	// here's the place to add 'debug only' command

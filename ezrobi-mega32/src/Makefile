@@ -131,7 +131,8 @@ CSTANDARD = -std=gnu99
 # Place -D or -U options here for C sources
 CDEFS = -DF_CPU=$(F_CPU)UL
 CDEFS += -DBOOT_UART
-CDEFS += -DDEBUG_CMDS
+CDEFS += -DENAB_DEBUG_CMDS
+CDEFS += -DDEBUG_MC
 CDEFS += -DDEBUG
 
 # Place -D or -U options here for C++ sources
