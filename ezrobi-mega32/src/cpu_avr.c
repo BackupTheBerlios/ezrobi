@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: cpu_avr.c,v 1.3 2007/08/30 18:19:41 jdesch Exp $
+ * $Id: cpu_avr.c,v 1.4 2007/09/04 14:06:26 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -227,7 +227,8 @@ void cpuInitPWM ( void )
 #ifdef __GNUC__
   #if defined (__AVR_ATmega128__) || defined (__AVR_ATmega32__)
     // channel A: 8bit mode, output inverted, no interrupt, no noise canceler
-    TCCR1A = 0xA1; TCCR1B = 0x01;
+    TCCR1A = 0xA1; 
+    TCCR1B = 0x03;		/* PWM frequency: 1=31kHz 2=3.9kHz 3=490Hz */
     //ICR1H = 0; ICR1L = 0;
     TCNT1H = 0; TCNT1L = 0;
     OCR1AH = 0; OCR1AL = 0;
@@ -241,7 +242,8 @@ void cpuInitPWM ( void )
 #elif __CODEVISIONAVR__
   #if defined _CHIP_ATMEGA128_ | defined _CHIP_ATMEGA32_
     // channel A: 8bit mode, output inverted, no interrupt, no noise canceler
-    TCCR1A = 0xA1; TCCR1B = 0x01;
+    TCCR1A = 0xA1; 
+    TCCR1B = 0x03;		/* PWM frequency: 1=31kHz 2=3.9kHz 3=490Hz */
     //ICR1H = 0; ICR1L = 0;
     TCNT1H = 0; TCNT1L = 0;
     OCR1AH = 0; OCR1AL = 0;

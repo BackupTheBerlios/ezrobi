@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: system.c,v 1.2 2007/09/03 13:44:18 jdesch Exp $
+ * $Id: system.c,v 1.3 2007/09/04 14:06:26 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -261,9 +261,14 @@ static WORD mergedKeypadPins (void)
 #ifdef DEBUG_KEY_IN
     out_MP1 = 0;
 #endif
-    if ( in_SW1==0 ) w |= SYS_SW1_KEY;
-    if ( in_SW2==0 ) w |= SYS_SW2_KEY;
-    if ( in_SW3==0 ) w |= SYS_SW3_KEY;
+    cpuDelay_us(500);
+#if 0
+    w = (~(inb(PINB)))>>5;
+#else
+//    if ( (in_SW1)==0 ) w |= SYS_SW1_KEY;
+    if ( (in_SW2)==0 ) w |= SYS_SW2_KEY;
+//    if ( (in_SW3)==0 ) w |= SYS_SW3_KEY;
+#endif
 #ifdef DEBUG_KEY_IN
     out_MP1 = 1;
 #endif
@@ -274,7 +279,7 @@ static WORD mergedKeypadPins (void)
     out_GREEN_LED = (led_state&0x01)? 0:1;
     out_RED_LED = (led_state&0x02)? 0:1;;
     out_YELLOW_LED = (led_state&0x04)? 0:1;;
-    return 0;
+    return w;
 }
 
 /* }}} */

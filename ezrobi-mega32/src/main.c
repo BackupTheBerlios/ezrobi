@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: main.c,v 1.5 2007/09/03 13:44:18 jdesch Exp $
+ * $Id: main.c,v 1.6 2007/09/04 14:06:26 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -156,7 +156,7 @@ int main (void)
 	
 	/* KEYPAD HANDLER
 	 */
-	//pad_HandleKeypad();		     /* call dispatcher */
+	pad_HandleKeypad();		     /* call dispatcher */
 #endif
 
     }
