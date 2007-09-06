@@ -7,9 +7,10 @@ Welcome to `ezRobi', a GPL'd free embedded application framework to
 ease robotics.
 
 `ezRobi' is designed to help beginners to easily develop the firmware
-for small autonomous robotics. The current release is based on the PCB
-of Alexander Wiedekind-Klein. The used uController is a cheap Atmel
-AVR Mega32.
+for small autonomous robotics. The current release is based on the MCU
+design called `M32-Rob' by Alexander Wiedekind-Klein. The used uController
+is a cheap Atmel AVR Mega32. See doc/platform--m32-rob.txt for more
+details
 
 One note about the term `framework'. I call this code a `framework'
 for embedded applications (firmware) because it is used as a base for

@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: config.h,v 1.1 2007/08/29 12:42:24 jdesch Exp $
+ * $Id: config.h,v 1.2 2007/09/06 06:09:20 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -133,6 +133,7 @@
  */
 #define CFG_USE_8BIT_ADC 1
 
+
 /* ===== THE SOFTWARE TIMER =====
  */
 
@@ -154,6 +155,18 @@
 #define RP_MAX_PARAMETERS 3
 
 
+/* ===== THE MOTOR CONTROLER =====
+ */
+
+/* Here we configure the base clock the the PWM generator. For now, 
+ * possible values are 1 to 3 where 1 is the fastest, 2 is normal and
+ * 3 means slow.
+ * 
+ * For the M32-Rob we have to choose 3! This is because the motor
+ * driver is not (really) designed for PWM usage. So we must use
+ * a really slow clock to get the best power out of the driver. 
+ */
+#define CFG_PWM_SPEED 3
 
 
 

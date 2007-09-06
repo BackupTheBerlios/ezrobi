@@ -1,0 +1,56 @@
+                                                      -*- indented-text -*-
+Project:    ezRobi Mega-32
+File:       doc/de/platform--m32-rob.txt
+Time-stamp: <2007-09-06 07:18:05 jd>
+----------------------------------------------------------------------------
+
+ÜBERSICHT
+--------
+
+Die `M32-Rob' Plattform ist ein Entwurf von Alexander Wiedekind-Klein (siehe 
+http://www.roboterwelt.de/). Die Basis bildet ein kostengünstiger Atmel AVR 
+Mega32. Das Konzept wurde unter folgenden Gesichtspunkten entworfen:
+
+ * der Preis: sowohl der Mega32 als auch der Motortreiber sind sehr günstig.
+
+ * Verfügbarkeit: alle Teile sollten sehr leicht zu beschaffen sein. Ein
+   günstiger Anbieter ist zum Beispiel http://www.reichelt.de/
+
+ * keine kommerzielle Platine: das komplette Design lässt sich auf 
+   Lochrasterplatine auffädeln.
+
+ * Flexibilität: Alle Pins sind im Zugriff. Das gilt auch für die Pins, die von
+   ezRobi nicht benutzt werden. ;-)
+
+
+VERFÜGBARE FUNKTIONEN
+---------------------
+
+Die nachfolgende Liste gibt einen Überblick über die verfügbaren Eigenschaften:
+
+ * `M32-Rob' kann mit dem  STK500 JTAG Interface oder einem einfachen
+   ISP Programmer wie dem von PonyProg programmiert werden.
+
+ * Der Motortreiber ist ein BA6845FS, der einen Strom von 1A pro Motor
+   liefern kann. Mehr Details stehen im Datenblatt.
+
+ * Für die Interaktion mit dem Benutzer stehen drei LEDs und drei Tasten zur
+   Verfügung.
+ 
+ * Der UART ist als TTL-Variante ausgeführt. Für die Kommunikation mit einem PC
+   muss noch die Pegelanpassung an RS-232 vorgenommen werden. Das geht recht
+   günstig mit den seriellen Adapterkabeln von älteren Handys.
+
+ * Es sind insgesamt acht ADC Eingänge verfügbar. Als Referenzspannung wird die
+   Versorgungsspannung verwendet.
+ 
+ * An den Verbindern ST9 und ST17 können zwei externe Interruptquellen 
+   angeschlossen werden.
+
+ * An ST4 steht ein I2C Bus zur Verfügung.
+
+
+
+--
+jdesch@users.berlios.de
+http://ezrobi.berlios.de/

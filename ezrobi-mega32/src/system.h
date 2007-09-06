@@ -1,11 +1,11 @@
 /* -*- Mode: C -*-
  *
- * $Id: system.h,v 1.1 2007/08/29 12:42:25 jdesch Exp $
+ * $Id: system.h,v 1.2 2007/09/06 06:09:20 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
  * PROJECT: ezROBI Mega32
- * MODULE.: SYSTEM.H:
+ * MODULE.: SYSTEM.H:  low level code
  * AUTHOR.: jdesch
  * --------------------------------------------------------------------------
  * DESCRIPTION:
@@ -62,6 +62,10 @@
 /*`========================================================================='*/
 /* {{{ */
 
+/* This is the type to hold all the keypad bits. 
+ */
+typedef BYTE T_Key;
+
 
 /* }}} */
 
@@ -74,7 +78,7 @@
 /*`========================================================================='*/
 
 void sysInitHardware (void);
-WORD sysReadRawKeypad (void);
+T_Key sysReadRawKeypad (void);
 
 /* on-board LEDs */
 void sysSetGreenLED (BOOL enable);

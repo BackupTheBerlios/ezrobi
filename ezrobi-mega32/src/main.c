@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: main.c,v 1.6 2007/09/04 14:06:26 jdesch Exp $
+ * $Id: main.c,v 1.7 2007/09/06 06:09:20 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -236,7 +236,7 @@ static void handleMessages (void)
 
 static void setupSystem (void)
 {
-    sysSetRedLED(1);
+    sysSetRedLED(TRUE);
     sysInitHardware();	
     swt_InitTimers(localTimerHandler);
     v24InitModule();

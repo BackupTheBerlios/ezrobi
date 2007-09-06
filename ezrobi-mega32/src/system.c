@@ -1,11 +1,11 @@
 /* -*- Mode: C -*-
  *
- * $Id: system.c,v 1.3 2007/09/04 14:06:26 jdesch Exp $
+ * $Id: system.c,v 1.4 2007/09/06 06:09:20 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
  * PROJECT: ezROBI Mega32
- * MODULE.: SYSTEM.C:
+ * MODULE.: SYSTEM.C: low level code
  * AUTHOR.: jdesch
  * --------------------------------------------------------------------------
  * DESCRIPTION:
@@ -84,7 +84,7 @@ static BYTE led_state = 0;	/* bitflags which remember the LED state */
 /* {{{ */
 
 static void setupCPU_Ports (void);
-static WORD mergedKeypadPins (void);
+static T_Key mergedKeypadPins (void);
 
 /* }}} */
 
@@ -203,20 +203,39 @@ void sysSetYellowLED (BOOL enable)
 /** Returns the state of the keypad-port. The signals are already in positive
  * logic. So a set bit represents a pressed key.
  *
- * @return (WORD) the inputs of the keypad port.
+ * In this design, the LED outputs are shared with the keypad inputs. To get
+ * the keys, we have to set the led outputs to 1, switch to inputs, read the
+ * pin and restore the outputs.
+ *
+ * @return (T_Key) the inputs of the keypad port.
  * @memo internal function.
  */
-WORD sysReadRawKeypad (void)
+T_Key sysReadRawKeypad (void)
 {
-    WORD key_io;
+    T_Key key_io;
 
     cpuResetWatchDog();
+    out_GREEN_LED = 1;
+    out_RED_LED = 1;
+    out_YELLOW_LED = 1;
+    SET_SW1_IN();
+    SET_SW2_IN();
+    SET_SW3_IN();
+
     key_io = mergedKeypadPins();
     if ( key_io )
     {
 	cpuDelay_us(100);
 	key_io = mergedKeypadPins();
     }
+
+    SET_SW1_OUT();
+    SET_SW2_OUT();
+    SET_SW3_OUT();
+    out_GREEN_LED = (led_state&0x01)? 0:1;
+    out_RED_LED = (led_state&0x02)? 0:1;;
+    out_YELLOW_LED = (led_state&0x04)? 0:1;;
+
     return key_io;
 }
 
@@ -240,45 +259,23 @@ static void setupCPU_Ports (void)
 
 
 /* Simply return the merged pins of the keypad. This means, all bits are
- * collected into one WORD. Make sure that the bits are in positive logic.
+ * collected into one BYTE/WORD. Make sure that the bits are in positive logic.
  * So a pressed key must be 1!
- *
- * In this design, the LED outputs are shared with the keypad inputs. To get
- * the keys, we have to set the led outputs to 1, switch to inputs, read the
- * pin and restore the outputs.
  */
-static WORD mergedKeypadPins (void)
+static T_Key mergedKeypadPins (void)
 {
-    WORD w=0;
-    
-    out_GREEN_LED = 1;
-    out_RED_LED = 1;
-    out_YELLOW_LED = 1;
-    SET_SW1_IN();
-    SET_SW2_IN();
-    SET_SW3_IN();
+    T_Key w=0;
 
 #ifdef DEBUG_KEY_IN
     out_MP1 = 0;
 #endif
-    cpuDelay_us(500);
-#if 0
-    w = (~(inb(PINB)))>>5;
-#else
+    cpuDelay_us(50);
 //    if ( (in_SW1)==0 ) w |= SYS_SW1_KEY;
     if ( (in_SW2)==0 ) w |= SYS_SW2_KEY;
 //    if ( (in_SW3)==0 ) w |= SYS_SW3_KEY;
-#endif
 #ifdef DEBUG_KEY_IN
     out_MP1 = 1;
 #endif
-
-    SET_SW1_OUT();
-    SET_SW2_OUT();
-    SET_SW3_OUT();
-    out_GREEN_LED = (led_state&0x01)? 0:1;
-    out_RED_LED = (led_state&0x02)? 0:1;;
-    out_YELLOW_LED = (led_state&0x04)? 0:1;;
     return w;
 }
 
