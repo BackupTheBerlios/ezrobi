@@ -1,7 +1,7 @@
 Die Platform 'M32-Rob'
 Eine Hardware-Platform für das ezRobi Projekt
-$Revision: 1.2 $
-%% $Id: platform--m32-rob.t2t,v 1.2 2007/09/10 08:03:31 jdesch Exp $
+$Revision: 1.3 $
+%% $Id: platform--m32-rob.t2t,v 1.3 2007/09/10 16:59:42 jdesch Exp $
 %% Project: ezRobi http://ezrobi.berlios.de/
 %% File...: doc/de/platform--m32-rob.t2t
 %% Author.: jdesch
@@ -10,7 +10,7 @@ $Revision: 1.2 $
 %!options(html): --mask-email
 
 %!preproc(html):   _IMAGE_    ' [images/platform--m32-rob.jpg] '
-%!preproc(dokuw):  _IMAGE_    ' [platform--m32-rob.jpg] '
+%!preproc(dokuw):  _IMAGE_    ' [docs:platform--m32-rob.jpg] '
 %!preproc(txt):    _IMAGE_    ''
 
 %!postproc(html): <HEAD>      '<HEAD>\n<STYLE TYPE="text/css">\n</STYLE>'
@@ -20,21 +20,15 @@ $Revision: 1.2 $
 
 = Übersicht =
 
-Die `M32-Rob' Plattform ist ein Entwurf von 
-[Alexander Wiedekind-Klein http://www.roboterwelt.de/]. Die Basis bildet ein
-kostengünstiger Atmel AVR Mega32. Das Konzept wurde unter folgenden
-Gesichtspunkten entworfen:
+Die `M32-Rob' Plattform ist ein Entwurf von  [Alexander Wiedekind-Klein http://www.roboterwelt.de/]. Die Basis bildet ein kostengünstiger Atmel AVR Mega32. Das Konzept wurde unter folgenden Gesichtspunkten entworfen:
 
 - **der Preis:** sowohl der Mega32 als auch der Motortreiber sind sehr günstig.
 
-- **Verfügbarkeit:** alle Teile sollten sehr leicht zu beschaffen sein. Ein
-günstiger Anbieter ist zum Beispiel http://www.reichelt.de/
+- **Verfügbarkeit:** alle Teile sollten sehr leicht zu beschaffen sein. Ein günstiger Anbieter ist zum Beispiel http://www.reichelt.de/
 
-- **keine kommerzielle Platine:** das komplette Design lässt sich auf
-Lochrasterplatine auffädeln.
+- **keine kommerzielle Platine:** das komplette Design lässt sich auf Lochrasterplatine auffädeln.
 
-- **Flexibilität:** Alle Pins sind im Zugriff. Das gilt auch für die Pins,
-die von ezRobi nicht benutzt werden. ;-)
+- **Flexibilität:** Alle Pins sind im Zugriff. Das gilt auch für die Pins, die von ezRobi nicht benutzt werden. ;-)
 
 
 _IMAGE_
@@ -44,24 +38,17 @@ _IMAGE_
 
 Die nachfolgende Liste gibt einen Überblick über die verfügbaren Eigenschaften:
 
-- `M32-Rob' kann mit dem  STK500 JTAG Interface oder einem einfachen
-ISP Programmer wie dem von PonyProg programmiert werden.
+- `M32-Rob' kann mit dem  STK500 JTAG Interface oder einem einfachen ISP Programmer wie dem von PonyProg programmiert werden.
 
-- Der Motortreiber ist ein BA6845FS, der einen Strom von //1A// pro Motor
-liefern kann. Mehr Details stehen im Datenblatt.
+- Der Motortreiber ist ein BA6845FS, der einen Strom von //1A// pro Motor liefern kann. Mehr Details stehen im Datenblatt.
 
-- Für die Interaktion mit dem Benutzer stehen drei LEDs und drei Tasten zur
-Verfügung.
+- Für die Interaktion mit dem Benutzer stehen drei LEDs und drei Tasten zur Verfügung.
  
-- Der UART ist als TTL-Variante ausgeführt. Für die Kommunikation mit einem PC
-muss noch die Pegelanpassung an RS-232 vorgenommen werden. Das geht recht
-günstig mit den seriellen Adapterkabeln von älteren Handys.
+- Der UART ist als TTL-Variante ausgeführt. Für die Kommunikation mit einem PC muss noch die Pegelanpassung an RS-232 vorgenommen werden. Das geht recht günstig mit den seriellen Adapterkabeln von älteren Handys.
 
-- Es sind insgesamt acht ADC Eingänge verfügbar. Als Referenzspannung wird die
-Versorgungsspannung verwendet.
+- Es sind insgesamt acht ADC Eingänge verfügbar. Als Referenzspannung wird die Versorgungsspannung verwendet.
  
-- An den Verbindern ST9 und ST17 können zwei externe Interruptquellen 
-angeschlossen werden.
+- An den Verbindern ST9 und ST17 können zwei externe Interruptquellen angeschlossen werden.
 
 - An ST4 steht ein I2C Bus zur Verfügung.
 
