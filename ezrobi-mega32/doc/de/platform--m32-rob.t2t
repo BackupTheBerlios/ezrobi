@@ -1,13 +1,17 @@
 Die Platform 'M32-Rob'
 Eine Hardware-Platform für das ezRobi Projekt
-$Revision: 1.1 $
-%% $Id: platform--m32-rob.t2t,v 1.1 2007/09/10 06:06:46 jdesch Exp $
+$Revision: 1.2 $
+%% $Id: platform--m32-rob.t2t,v 1.2 2007/09/10 08:03:31 jdesch Exp $
 %% Project: ezRobi http://ezrobi.berlios.de/
 %% File...: doc/de/platform--m32-rob.t2t
 %% Author.: jdesch
 
 %!target: man
 %!options(html): --mask-email
+
+%!preproc(html):   _IMAGE_    ' [images/platform--m32-rob.jpg] '
+%!preproc(dokuw):  _IMAGE_    ' [platform--m32-rob.jpg] '
+%!preproc(txt):    _IMAGE_    ''
 
 %!postproc(html): <HEAD>      '<HEAD>\n<STYLE TYPE="text/css">\n</STYLE>'
 %!postproc(html): (</STYLE>)  'body { margin:3em               ;} \n\1'
@@ -33,6 +37,9 @@ Lochrasterplatine auffädeln.
 die von ezRobi nicht benutzt werden. ;-)
 
 
+_IMAGE_
+
+
 = Verfügbare Funktionen =
 
 Die nachfolgende Liste gibt einen Überblick über die verfügbaren Eigenschaften:
@@ -40,7 +47,7 @@ Die nachfolgende Liste gibt einen Überblick über die verfügbaren Eigenschaften:
 - `M32-Rob' kann mit dem  STK500 JTAG Interface oder einem einfachen
 ISP Programmer wie dem von PonyProg programmiert werden.
 
-- Der Motortreiber ist ein BA6845FS, der einen Strom von 1A pro Motor
+- Der Motortreiber ist ein BA6845FS, der einen Strom von //1A// pro Motor
 liefern kann. Mehr Details stehen im Datenblatt.
 
 - Für die Interaktion mit dem Benutzer stehen drei LEDs und drei Tasten zur

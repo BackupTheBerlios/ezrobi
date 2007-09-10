@@ -1,20 +1,24 @@
 The Platform 'M32-Rob'
 A hardware platform for the ezRobi project
-$Revision: 1.2 $
-%% $Id: platform--m32-rob.t2t,v 1.2 2007/09/10 06:06:46 jdesch Exp $
+$Revision: 1.3 $
+%% $Id: platform--m32-rob.t2t,v 1.3 2007/09/10 08:03:31 jdesch Exp $
 %% Project: ezRobi http://ezrobi.berlios.de/
-%% File...: doc/de/platform--m32-rob.t2t
+%% File...: doc/platform--m32-rob.t2t
 %% Author.: jdesch
 
 %!target: man
 %!options(html): --mask-email
+
+%!preproc(html):   _IMAGE_    ' [images/platform--m32-rob.jpg] '
+%!preproc(dokuw):  _IMAGE_    ' [platform--m32-rob.jpg] '
+%!preproc(txt):    _IMAGE_    ''
 
 %!postproc(html): <HEAD>      '<HEAD>\n<STYLE TYPE="text/css">\n</STYLE>'
 %!postproc(html): (</STYLE>)  'body { margin:3em               ;} \n\1'
 %!postproc(html): (</STYLE>)  'a    { text-decoration:none     ;} \n\1'
 %!postproc(html): (</STYLE>)  'pre  { background-color:#ffffcc ;} \n\1'
 
-= An Overview =
+== An Overview ==
 
 The `M32-Rob' platform is a design of 
 [Wiedekind-Klein http://www.roboterwelt.de/]. It is based on a cheap
@@ -30,14 +34,17 @@ in mind:
 - **flexibility:** all pins are accessible. Even if ezRobi don't care about them ;-)
 
 
-= Available Features =
+_IMAGE_
+
+
+== Available Features ==
 
 The following list gives you an overview of the available features.
 
 - The `M32-Rob' can be programmed with the STK500 JTAG interface or with a
 cheap serial ISP programmer like the one used by famous Pony-Prog.
 
-- The motor driver BA6845FS is capable to drive two motors with 1A
+- The motor driver BA6845FS is capable to drive two motors with //1A//
 (each). See the datasheet fro details.
 
 - There are three LEDs and three keys for simply user-IO.
