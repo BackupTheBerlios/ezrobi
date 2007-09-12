@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: remote_protocol.h,v 1.1 2007/08/29 12:42:24 jdesch Exp $
+ * $Id: remote_protocol.h,v 1.2 2007/09/12 16:26:34 jdesch Exp $
  * -----------------------------------------------------------------------
  * Copyright (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -54,6 +54,16 @@
 #define RP_CMD_READ_SYSVAR  'R'
 #define RP_CMD_WRITE_SYSVAR 'W'
 // more to come...
+
+
+/* Id for the system variables (SYSVAR)
+ */
+//#define RP_VAR_...
+
+
+/* Id for the debug / diagnose subcommands
+ */
+//#define RP_DBG_...
 
 
 /*+=========================================================================+*/

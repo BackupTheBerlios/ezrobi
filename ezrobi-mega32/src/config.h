@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: config.h,v 1.2 2007/09/06 06:09:20 jdesch Exp $
+ * $Id: config.h,v 1.3 2007/09/12 16:26:34 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -53,15 +53,15 @@
 
 #define PRJNAME "ezROBI Mega32"
 
-#define __V_MAJOR 1
-#define __V_MINOR 0
+#define __V_MAJOR 0
+#define __V_MINOR 1
 #define __V_BUILD 1
 #define __BUILDLEVEL "1"
 
 #ifdef BETA
-#define __VERSION "1.0-BLD" __BUILDLEVEL
+#define __VERSION "0.1-BLD" __BUILDLEVEL
 #else
-#define __VERSION "1.0"
+#define __VERSION "0.1"
 #endif
 
 
