@@ -1,27 +1,27 @@
                                                       -*- indented-text -*-
 Project:    ezRobi Mega-32
-Time-stamp: <03/05/13 09:04:05 jd>
+Time-stamp: <2007-09-13 12:47:54 jd>
 ----------------------------------------------------------------------------
 
-Welcome to `ezRobi', a GPL'd free embedded application framework to
-ease robotics.
+Welcome to `ezRobi', a GPL'd free embedded application framework to ease
+robotics.
 
-`ezRobi' is designed to help beginners to easily develop the firmware
-for small autonomous robotics. The current release is based on the MCU
-design called `M32-Rob' by Alexander Dedekind-Klein. The used uController
-is a cheap Atmel AVR Mega32. See doc/platform--m32-rob.txt for more
-details.
+`ezRobi' is designed to help beginners to easily develop the firmware for
+small autonomous robotics. The current release is based on the MCU design
+called `M32-Rob' by Alexander Dedekind-Klein. The used uController is a cheap
+Atmel AVR Mega32. See doc/platform--m32-rob.txt for more details.
 
-One note about the term `framework'. I call this code a `framework'
-for embedded applications (firmware) because it is used as a base for
-your own work. `ezRobi' gives you all the base stuff around your
-application, so you "only" have to add the logic. ;-)
+One note about the term `framework'. I call this code a `framework' for
+embedded applications (firmware) because it is used as a base for your own
+work. `ezRobi' gives you all the base stuff around your application, so you
+"only" have to add the logic. ;-)
 
 
 AUTONOMOUS ROBOTICS
+-------------------
 
-Warning: autonomous robotics don't talk, they don't play poker and they 
-don't clean your clothes. But hey, therefore they don't drink your beer. ;-)
+Warning: autonomous robotics don't talk, they don't play poker and they don't
+clean your clothes. But hey, therefore they don't drink your beer. ;-)
 
 OK, what can this `simple and small family' of autonomous robotics really do?
 Well, that hardly depends on your programming skills. But most of the stuff
@@ -39,6 +39,7 @@ They are designed to solve tasks like the following:
 
 
 THE PARTS OF A `ezRobi' ROBOTIC
+-------------------------------
 
 The whole robotics mainly consists of four groups.
 
@@ -56,25 +57,27 @@ The whole robotics mainly consists of four groups.
 
 
 SOFTWARE REQUIREMENTS
+---------------------
 
 In order to compile this framework, you can use the free AVR-GCC
-toolchain. Windows users can download WIN-AVR. This package comes with
-all the tools you need. Linux users must have a deep look into there
+toolchain. Windows users can download WIN-AVR. This package comes with all
+the tools you need. Linux users must have a deep look into there
 distribution. Debian and Ubuntu knows the package `gcc-avr', `gdb-avr',
 `avr-libc' and more. Just do a `apt-cache search avr' to see all the nice
 packages.
 
-To flash the firmware into the controller, you can use avrdude with
-one of these cheap ISP dongles. Make sure you have a package greater
-than v5.0 installed! I have had some problems with the 5.0 which is
-part of my Ubuntu Dapper. So I've backported the current 5.4!
+To flash the firmware into the controller, you can use avrdude with one of
+these cheap ISP dongles. Make sure you have a package greater than v5.0
+installed! I have had some problems with the 5.0 which is part of my Ubuntu
+Dapper. So I've backported the current 5.4!
 
 
 A FIRST LOOK
+------------
 
 This package comes with a sample "application logic". It can be found in
-src/demo. The file application.c is your main point to work with. Read
-the documentation to get more details,
+src/demo. The file application.c is your main point to work with. Read the
+documentation to get more details,
 
 
 Have fun.
