@@ -8,20 +8,74 @@ ease robotics.
 
 `ezRobi' is designed to help beginners to easily develop the firmware
 for small autonomous robotics. The current release is based on the MCU
-design called `M32-Rob' by Alexander Wiedekind-Klein. The used uController
+design called `M32-Rob' by Alexander Dedekind-Klein. The used uController
 is a cheap Atmel AVR Mega32. See doc/platform--m32-rob.txt for more
-details
+details.
 
 One note about the term `framework'. I call this code a `framework'
 for embedded applications (firmware) because it is used as a base for
 your own work. `ezRobi' gives you all the base stuff around your
 application, so you "only" have to add the logic. ;-)
 
-In order to compile this application, you can use the free AVR-GCC
-toolchain.
+
+AUTONOMOUS ROBOTICS
+
+Warning: autonomous robotics don't talk, they don't play poker and they 
+don't clean your clothes. But hey, therefore they don't drink your beer. ;-)
+
+OK, what can this `simple and small family' of autonomous robotics really do?
+Well, that hardly depends on your programming skills. But most of the stuff
+you know from science fiction can't be done. The robotics we are talking
+about has too less computing power and too simple sensors to be that good.
+They are designed to solve tasks like the following:
+
+ * following a line as fast as possible
+
+ * find the exit inside a maze
+ 
+ * collect small candles and move them to your `home area'
+ 
+ * sumo fighting - try to move your competitor out of the arena
+
+
+THE PARTS OF A `ezRobi' ROBOTIC
+
+The whole robotics mainly consists of four groups.
+
+  * the hardware platform. This defines the micro-controller, the motor
+    driver and the "other" IOs needed.
+
+  * the mechanics. Here are all the mechanical details like wheels,
+    motors, sensors grouped.
+
+  * the `ezRobi' framework as glue between the upper two groups and the
+    final application.
+    
+  * the application logic. This is the place where you have to put work
+    into.
+
+
+SOFTWARE REQUIREMENTS
+
+In order to compile this framework, you can use the free AVR-GCC
+toolchain. Windows users can download WIN-AVR. This package comes with
+all the tools you need. Linux users must have a deep look into there
+distribution. Debian and Ubuntu knows the package `gcc-avr', `gdb-avr',
+`avr-libc' and more. Just do a `apt-cache search avr' to see all the nice
+packages.
 
 To flash the firmware into the controller, you can use avrdude with
-one of these cheap ISP dongles.
+one of these cheap ISP dongles. Make sure you have a package greater
+than v5.0 installed! I have had some problems with the 5.0 which is
+part of my Ubuntu Dapper. So I've backported the current 5.4!
+
+
+A FIRST LOOK
+
+This package comes with a sample "application logic". It can be found in
+src/demo. The file application.c is your main point to work with. Read
+the documentation to get more details,
+
 
 Have fun.
 
