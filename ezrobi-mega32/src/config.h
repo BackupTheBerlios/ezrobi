@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: config.h,v 1.3 2007/09/12 16:26:34 jdesch Exp $
+ * $Id: config.h,v 1.4 2007/09/17 05:50:52 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -96,14 +96,15 @@
 /* ===== THE SERIAL PORT =====
  */
 
-/* select one of the predefined baudrates. Not all baudrate are available, and
+/* Select one of the predefined baudrates. Not all baudrate are available, and
  * there may be differences for the different CPU speed.
  */
 #define CFG_V24_BAUD 57600
 
 /* Set this to 1 means, that the TxD functions waits until the data has been
- * transmitted. 0 means, that the functiosn returns immediately after the data
- * has been copied to the transmittion register.
+ * transmitted. 0 means, that the functions returns immediately after the data
+ * has been copied to the transmittion register. This is of interest, if you
+ * have to enable/disable a tranmitter (RS485; RF; ...)
  */
 #define CFG_V24_WAIT_FOR_TX 0
 
@@ -128,7 +129,7 @@
 
 /* The ADC is has a resolution of 10bits. Nevertheless, in most cases,
  * this precision is not needed. So to restict the ADC to 8bit, set 
- * the compiler flag below to 1. This make the ADC function return
+ * the compiler flag below to 1. This makes the ADC function return
  * a BYTE (as T_ADC).
  */
 #define CFG_USE_8BIT_ADC 1

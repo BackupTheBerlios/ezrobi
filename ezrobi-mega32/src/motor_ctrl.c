@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: motor_ctrl.c,v 1.2 2007/09/03 05:10:47 jdesch Exp $
+ * $Id: motor_ctrl.c,v 1.3 2007/09/17 05:50:52 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -43,7 +43,6 @@
 #endif
 
 #ifdef DEBUG_MC
-//#include "debugging.h"
 #include "v24_single.h"
 #endif
 
@@ -85,7 +84,7 @@
 
 
 #ifdef DEBUG_MC
-#define DBG_PUTS(str) v24PutsP(str) // dbg_ReportStr(str)
+#define DBG_PUTS(str) v24PutsP(str)
 #else
 #define DBG_PUTS(str)
 #endif

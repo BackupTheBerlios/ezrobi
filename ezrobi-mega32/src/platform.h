@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: platform.h,v 1.2 2007/09/03 13:44:18 jdesch Exp $
+ * $Id: platform.h,v 1.3 2007/09/17 05:50:52 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -11,7 +11,7 @@
  * DESCRIPTION:
  *
  * This file defines the platform specific binding of the microcontroller. 
- * This file is for the platform named "M32-Rob"
+ * This is the implementation for the platform named "M32-Rob".
  *
  *
  * This program is free software; you can redistribute it and/or
@@ -98,14 +98,22 @@
  *            PIN* for inputs.
  */
 /* {{{ */
-// COMPLETLY USED FOR THE KEYPAD
+
+/* These are the 8 ADC inputs. It's up to you to used it as ADC or
+ * as normal IO. For now, they are defines as inputs without pull-up!
+ */
+
 /* }}} */
 
 /* Port B  -- declare the alias for pin's here. Use PORT* for outputs and
  *            PIN* for inputs.
  */
 /* {{{ */
-
+#define in_out_UNUSED_PB0      __PIN(PORTB,0)  /* unused */
+#define in_out_UNUSED_PB1      __PIN(PORTB,1)  /* unused */
+#define in_out_UNUSED_PB2      __PIN(PORTB,2)  /* unused */
+#define in_out_UNUSED_PB3      __PIN(PORTB,3)  /* unused */
+#define out_MP3                __PIN(PORTB,4)
 #define out_YELLOW_LED         __PIN(PORTB,5)
 #define out_RED_LED            __PIN(PORTB,6)
 #define out_GREEN_LED          __PIN(PORTB,7)
@@ -119,7 +127,6 @@
  * macros to switch the direction.
  */
 /* {{{ */
-
 #define SET_SW1_IN()           cbi(DDRB,5)
 #define SET_SW1_OUT()          sbi(DDRB,5)
 #define SET_SW2_IN()           cbi(DDRB,6)
@@ -143,6 +150,8 @@
  *            PIN* for inputs.
  */
 /* {{{ */
+#define in_IO_OR_INT0          __PIN(PIND,2)    /* unused: either IO or INT */
+#define in_IO_OR_INT1          __PIN(PIND,3)    /* unused: either IO or INT */
 #define out_MOTOR1_ENAB        __PIN(PORTD,4)   /* 1=active 0=stand-by */
 #define out_MOTOR2_ENAB        __PIN(PORTD,5)   /* 1=active 0=stand-by */
 #define out_MOTOR1_DIR         __PIN(PORTD,6)
