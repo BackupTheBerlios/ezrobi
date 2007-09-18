@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: main.c,v 1.8 2007/09/17 05:50:52 jdesch Exp $
+ * $Id: main.c,v 1.9 2007/09/18 12:42:12 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -101,12 +101,13 @@ const flash_chr ProjectId_More[] =
 
 static BOOL AliveLED_State = FALSE;
 
+static T_Key CurrKeyPort = 0;
+static BYTE PressedKeyCode = 0;
+static BYTE LastKeyCode = 0;
+static BOOL KeyPressed = FALSE;
+
+
 #if 0
-
-/* temporary keypad handling
- */
-static BYTE tmp_prev_key_io=0x00;
-
 
 /* the 'system messages' FIFO
  */
@@ -122,8 +123,12 @@ MAKE_LOCAL_FIFO(BYTE)
 /* {{{ */
 
 static void setupSystem (void);
+
+static BOOL pollKeypad (void);
+
 static BOOL handleCommands (BYTE cmd, WORD* Parm, WORD cnt);
 static BOOL handleDebugCommand (WORD* Parm, WORD cnt);
+
 static void localTimerHandler (BYTE event);
 
 #if 0
@@ -160,10 +165,6 @@ int main (void)
 	/* SYSTEM MESSAGES
 	 */
 	handleMessages();
-	
-	/* KEYPAD HANDLER
-	 */
-	pad_HandleKeypad();		     /* call dispatcher */
 #endif
 
     }
@@ -175,37 +176,6 @@ int main (void)
 
 /* }}} */
 
-
-
-/*             .-----------------------------------------------.             */
-/* ___________/  Keypad related stuff                           \___________ */
-/*            `-------------------------------------------------'            */
-/* {{{ */
-
-#if 0
-
-BOOL handleKeyPress ( BYTE KeyCode, BOOL IsRepeat )
-{
-    cpuResetWatchDog();
-    if ( !IsRepeat )
-    {
-    }
-    else
-    {
-    }
-    return TRUE;
-}
-
-
-BOOL handleKeyRelease ( BYTE KeyCode )
-{
-    cpuResetWatchDog();
-    return TRUE;
-}
-
-#endif
-
-/* }}} */
 
 /*             .-----------------------------------------------.             */
 /* ___________/  System Message Handling                        \___________ */
@@ -260,6 +230,46 @@ static void setupSystem (void)
     sysSetGreenLED(1);
     return;
 }
+
+/* }}} */
+
+/*             .-----------------------------------------------.             */
+/* ___________/  Keypad related stuff                           \___________ */
+/*            `-------------------------------------------------'            */
+/* {{{ */
+
+static BOOL pollKeypad (void)
+{
+    T_Key new_io;
+    BYTE key;
+    
+    new_io = sysReadRawKeypad();
+    if ( new_io != CurrKeyPort )
+    {
+	/* simply generate a key-code...
+	 */
+	if ( new_io&SYS_SW1_KEY ) key = 1;
+	else if ( new_io&SYS_SW2_KEY ) key = 2;
+	else if ( new_io&SYS_SW3_KEY ) key = 3;
+	else key = 0;
+	CurrKeyPort = new_io;
+
+	if ( key != PressedKeyCode )
+	{
+	    /* We only save a `real' key. While the key is pressed,
+	     * PressedKeyCode and LastKeyCode are equal. After releasing,
+	     * PressedKeyCode becomes 0, but LastKeyCode not!
+	     */
+	    if ( key!=0 )
+		LastKeyCode = key;
+	    KeyPressed = (key!=0)?TRUE:FALSE;
+	    PressedKeyCode = key;
+	    return TRUE;
+	}
+    }
+    return FALSE;    
+}
+
 
 /* }}} */
 
@@ -365,20 +375,36 @@ static BOOL handleDebugCommand ( WORD* Parm, WORD cnt )
     return TRUE;
 }
 
+
 static void localTimerHandler ( BYTE event )
 {
     cpuResetWatchDog();
     switch (event)
     {
 	case EV_ALIVE:
-	    // dbg_ReportStrP(PSTR("*ALIVE*\n"));
+	    DBG_PUTS(PSTR("*ALIVE*\n"));
 	    AliveLED_State = AliveLED_State?FALSE:TRUE;
 	    sysSetGreenLED(AliveLED_State);
 	    break;
 
 	case EV_KEYPAD:
-	    /* TEMPORARY keypad handling
+	    /* polling the keys
 	     */
+	    if ( pollKeypad() )
+	    {
+		if ( KeyPressed )
+		{
+		    DBG_PUTS(PSTR("+KEY\n")); /* key pressed */
+		    app_HandleKeyPress(PressedKeyCode);
+		}
+		else
+		{
+		    DBG_PUTS(PSTR("-KEY\n")); /* key released */
+#if CFG_USE_KEY_RELEASE
+		    app_HandleKeyRelease(LastKeyCode);
+#endif
+		}
+	    }
 	    break;
 
 	default:

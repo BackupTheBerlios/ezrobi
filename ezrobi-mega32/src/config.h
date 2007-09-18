@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: config.h,v 1.4 2007/09/17 05:50:52 jdesch Exp $
+ * $Id: config.h,v 1.5 2007/09/18 12:42:12 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -156,7 +156,7 @@
 #define RP_MAX_PARAMETERS 3
 
 
-/* ===== THE MOTOR CONTROLER =====
+/* ===== THE MOTOR CONTROLLER =====
  */
 
 /* Here we configure the base clock the the PWM generator. For now, 
@@ -168,6 +168,17 @@
  * a really slow clock to get the best power out of the driver. 
  */
 #define CFG_PWM_SPEED 3
+
+
+/* ===== THE KEYPAD =====
+ */
+/* Normaly, the `key press event' is reported to the application. This is done
+ * by calling app_HandleKeyPress(). If you want to be notified for the `key
+ * release' too, set the define below to 1. In this case, the function
+ * app_HandleKeyRelease() is called. Note, that application.c has to implement
+ * this function!
+ */
+#define CFG_USE_KEY_RELEASE 0
 
 
 

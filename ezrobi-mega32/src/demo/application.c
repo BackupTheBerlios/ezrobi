@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: application.c,v 1.1 2007/09/03 10:18:07 jdesch Exp $
+ * $Id: application.c,v 1.2 2007/09/18 12:42:12 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -144,13 +144,23 @@ BOOL app_HandleCommand (BYTE cmd, WORD* args, WORD cnt)
 }
 
 
-void app_HandleKeypress (BYTE key)
+void app_HandleKeyPress (BYTE key)
 {
     // the name says all. If a key is pressed, this function is called.
-    // Key can have the values SYS_KEY_SW1, SYS_KEY_SW2 or SYS_KEY_SW3.
+    // Key can have the values 1..3.
     cpuResetWatchDog();
-    v24PutsP(PSTR("**HandleKeypress not implemented**\n"));
+    v24PutsP(PSTR("**HandleKeyPress not implemented**\n"));
 }
+
+#if CFG_USE_KEY_RELEASE
+void app_HandleKeyRelease (BYTE key)
+{
+    // the name says all. If a pressed key was released, this function is
+    // called. Key can have the values 1..3.
+    cpuResetWatchDog();
+    v24PutsP(PSTR("**HandleKeyRelease not implemented**\n"));
+}
+#endif
 
 
 void app_HandleEvent (BYTE event)

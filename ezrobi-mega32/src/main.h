@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: main.h,v 1.2 2007/08/30 16:06:03 jdesch Exp $
+ * $Id: main.h,v 1.3 2007/09/18 12:42:12 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -76,7 +76,10 @@ void app_Idle (void);
 
 BOOL app_HandleCommand (BYTE cmd, WORD* args, WORD cnt);
 
-void app_HandleKeypress (BYTE key);
+void app_HandleKeyPress (BYTE key);
+#if CFG_USE_KEY_RELEASE
+void app_HandleKeyRelease (BYTE key);
+#endif
 
 void app_HandleEvent (BYTE event);
 
