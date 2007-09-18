@@ -1,0 +1,15 @@
+1. write address in z pointer 
+	(PCWORD in z register is used to address data in buffer)
+2. write data in r1:r0 (16 bits)
+3. write 00000001 to SPMCSR
+4. execute SPM
+
+
+         | RAMPZ[0]  |       z-register       |
+Address :| RAMPZ0 (1)| PCPAGE (9) | PCWORD (7)| = 128K
+
+Page Size : 128 words
+No. Of Pages: 512
+
+PCWORD: PC[6:0]
+PCPAGE: PC[15:7]
