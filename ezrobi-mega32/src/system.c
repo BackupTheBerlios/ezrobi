@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: system.c,v 1.4 2007/09/06 06:09:20 jdesch Exp $
+ * $Id: system.c,v 1.5 2007/09/18 07:55:43 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -129,24 +129,28 @@ void sysInitHardware (void)
     // USART Receiver: On
     // USART Transmitter: On
     // USART Mode: Asynchronous
-    // USART Baud rate: 57600 (Double Speed Mode)
+    // USART Baud rate: Double Speed Mode
     // USART RX-Interrupt On
     UCSRA=0x02;
     UCSRB=0x98;
     UCSRC=0x86;
 #ifdef __CODEVISIONAVR__
-#error "TODO: we have to parse the baudrate with CodeVision"
+#error "TODO: parsing the baudrate cfg with CodeVision ins't done yet!"
 #endif    
 #if (F_CPU == 16000000)
-#if (CFG_V24_BAUD == 57600)
+# if (CFG_V24_BAUD == 57600)
     UBRRH=0;  UBRRL=34;
-#endif
-#if (CFG_V24_BAUD == 38400)
+# elif (CFG_V24_BAUD == 38400)
     UBRRH=0;  UBRRL=51;
-#endif
-#if (CFG_V24_BAUD == 19200)
+# elif (CFG_V24_BAUD == 19200)
     UBRRH=0;  UBRRL=103;
-#endif
+# elif (CFG_V24_BAUD == 9600)
+    UBRRH=0;  UBRRL=207;
+# elif (CFG_V24_BAUD == 4800)
+    UBRRH=1;  UBRRL=160;
+# else
+#  error "baudrate: illegal or undefined CFG_V24_BAUD" 
+# endif
 #else
 #  error "baudrate: unsupported CPU speed (F_CPU)" 
 #endif
