@@ -1,12 +1,14 @@
                                                       -*- indented-text -*-
 Project:    Mega-32 Bootloader
-Time-stamp: <2007-09-18 15:12:20 jd>
+Time-stamp: <2007-10-01 08:43:14 jd>
 ----------------------------------------------------------------------------
 
 This is an adaption of the bootloader code from http:/reza.net/. I've changed
-the code match the AVR Mega-32.
+the code to match the AVR Mega-32 requirements.
 
 This code is a first try and I don't know if it is the last one. ;-)
+
+IMPORTANT: the project compiles, but it is not tested yet.
 
 
 Have fun.
