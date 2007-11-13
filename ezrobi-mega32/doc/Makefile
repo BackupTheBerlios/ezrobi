@@ -18,7 +18,7 @@ all:	$(OUT)
 	txt2tags --target html -o $@ $<
 
 .t2t.dokuw:
-	txt2tags --target dokuw -o $@ $<
+	txt2tags --target doku -o $@ $<
 
 .html.txt:
 	lynx --dump $< > $@

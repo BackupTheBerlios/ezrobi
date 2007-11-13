@@ -1,7 +1,7 @@
 The Platform 'M32-Rob'
 A hardware platform for the ezRobi project
-$Revision: 1.4 $
-%% $Id: platform--m32-rob.t2t,v 1.4 2007/09/10 16:59:41 jdesch Exp $
+$Revision: 1.5 $
+%% $Id: platform--m32-rob.t2t,v 1.5 2007/11/13 12:46:54 jdesch Exp $
 %% Project: ezRobi http://ezrobi.berlios.de/
 %% File...: doc/platform--m32-rob.t2t
 %% Author.: jdesch
@@ -10,7 +10,7 @@ $Revision: 1.4 $
 %!options(html): --mask-email
 
 %!preproc(html):   _IMAGE_    ' [images/platform--m32-rob.jpg] '
-%!preproc(dokuw):  _IMAGE_    ' [docs:platform--m32-rob.jpg] '
+%!preproc(doku):   _IMAGE_    ' [docs:platform--m32-rob.jpg] '
 %!preproc(txt):    _IMAGE_    ''
 
 %!postproc(html): <HEAD>      '<HEAD>\n<STYLE TYPE="text/css">\n</STYLE>'

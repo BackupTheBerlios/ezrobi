@@ -2,7 +2,7 @@
                            The Platform 'M32-Rob'
 
                  A hardware platform for the ezRobi project
-                              $Revision: 1.5 $
+                              $Revision: 1.6 $
 
 An Overview
 
