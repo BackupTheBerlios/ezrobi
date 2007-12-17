@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: cpu_avr.h,v 1.2 2007/08/30 16:06:03 jdesch Exp $
+ * $Id: cpu_avr.h,v 1.3 2007/12/17 12:27:38 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -58,6 +58,7 @@
 
 /* Some constants for timer configuration...
  */
+// Timer-1, ...
 #define TIMER_CLK_STOP		0x00	// Timer Stopped
 #define TIMER_CLK_DIV1		0x01	// Timer clocked at F_CPU
 #define TIMER_CLK_DIV8		0x02	// Timer clocked at F_CPU/8
@@ -67,6 +68,16 @@
 #define TIMER_CLK_T_FALL	0x06	// Timer clocked at T falling edge
 #define TIMER_CLK_T_RISE	0x07	// Timer clocked at T rising edge
 #define TIMER_PRESCALE_MASK	0x07	// Timer Prescaler Bit-Mask
+// Timer-0
+#define TIMER0_CLK_STOP		0x00	// Timer Stopped
+#define TIMER0_CLK_DIV1		0x01	// Timer clocked at F_CPU
+#define TIMER0_CLK_DIV8		0x02	// Timer clocked at F_CPU/8
+#define TIMER0_CLK_DIV32	0x03	// Timer clocked at F_CPU/32
+#define TIMER0_CLK_DIV64	0x04	// Timer clocked at F_CPU/64
+#define TIMER0_CLK_DIV128	0x05	// Timer clocked at F_CPU/128
+#define TIMER0_CLK_DIV256	0x06	// Timer clocked at F_CPU/256
+#define TIMER0_CLK_DIV1024	0x07	// Timer clocked at F_CPU/1024
+#define TIMER0_PRESCALE_MASK	0x07	// Timer Prescaler Bit-Mask
 
 
 /*+=========================================================================+*/
@@ -78,6 +89,7 @@ typedef BYTE T_ADC;
 #else
 typedef WORD T_ADC;
 #endif
+
 
 /*+=========================================================================+*/
 /*|                            PUBLIC VARIABLES                             |*/

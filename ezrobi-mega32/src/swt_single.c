@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: swt_single.c,v 1.2 2007/08/30 16:06:03 jdesch Exp $
+ * $Id: swt_single.c,v 1.3 2007/12/17 12:27:38 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -62,7 +62,7 @@
  *    SWT_TICKS_NEEDED = F_CPU / (SWT_TIMER_PRESCALE_VALUE*1000)
  *
  */
-#define SWT_TIMER_PRESCALE TIMER_CLK_DIV64
+#define SWT_TIMER_PRESCALE TIMER0_CLK_DIV64
 #define SWT_TIMER_PRESCALE_VALUE 64
 #define SWT_TICKS_NEEDED 250
 
