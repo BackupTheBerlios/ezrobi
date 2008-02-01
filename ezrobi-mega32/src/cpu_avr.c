@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: cpu_avr.c,v 1.5 2007/09/06 06:09:20 jdesch Exp $
+ * $Id: cpu_avr.c,v 1.6 2008/02/01 14:15:06 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -10,10 +10,10 @@
  * --------------------------------------------------------------------------
  * DESCRIPTION:
  *
- * This module defines and declares all the AVR related stuff. This means,
- * alle the code here is independent from the application code.
+ * This module defines and declares all the AVR related stuff. This means, all
+ * the code here is independent from the application code.
  * 
- * All the low level code that is part of the application is put into
+ * All the low level code that is part of the application has to be put into
  * system.c!
  *
  *

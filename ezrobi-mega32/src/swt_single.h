@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: swt_single.h,v 1.1 2007/08/29 12:42:25 jdesch Exp $
+ * $Id: swt_single.h,v 1.2 2008/02/01 14:15:06 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -174,6 +174,16 @@ void swt_DispatchTimer (void);
  * @memo
  */
 WORD swt_OneSecond (void);
+
+
+/** This function simply returns the timer value for one minute. It's important
+ * to know, that this value depends on the configuration of the modul. So you
+ * should always use this function to get a valid reference.
+ *
+ * @return (WORD) timer ticks for one minute.
+ * @memo
+ */
+WORD swt_OneMinute (void);
 
 
 /** Read the internal timer ticker.

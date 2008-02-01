@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: swt_single.c,v 1.3 2007/12/17 12:27:38 jdesch Exp $
+ * $Id: swt_single.c,v 1.4 2008/02/01 14:15:06 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -62,8 +62,13 @@
  *    SWT_TICKS_NEEDED = F_CPU / (SWT_TIMER_PRESCALE_VALUE*1000)
  *
  */
-#define SWT_TIMER_PRESCALE TIMER0_CLK_DIV64
-#define SWT_TIMER_PRESCALE_VALUE 64
+#if defined (__AVR_ATmega128__)
+#  define SWT_TIMER_PRESCALE TIMERX_CLK_DIV64
+#  define SWT_TIMER_PRESCALE_VALUE 64
+#else
+#  define SWT_TIMER_PRESCALE TIMER_CLK_DIV64
+#  define SWT_TIMER_PRESCALE_VALUE 64
+#endif
 #define SWT_TICKS_NEEDED 250
 
 
@@ -73,7 +78,7 @@
 
 
 #ifdef DEBUG_SWT
-#define DBG_PUTS(str) dbg_ReportStr(str)
+#define DBG_PUTS(str) dbg_ReportStrP(PSTR(str))
 #else
 #define DBG_PUTS(str)
 #endif
@@ -114,9 +119,10 @@ static volatile BOOL EventOccured=FALSE;
 
 static T_TimerHandler EventHandler;
 
-/* Some help variables
+/* Some helper variables
  */
 static WORD OneSecond;
+static WORD OneMinute;
 
 static DWORD volatile LocalTicks;
 
@@ -142,6 +148,7 @@ static void leaveCritical (void);
 
 void swt_InitTimers ( T_TimerHandler callback )
 {
+    unsigned long t;
     short i;
 
     /* Setup of variables
@@ -184,7 +191,21 @@ void swt_InitTimers ( T_TimerHandler callback )
 #else
   #error "SWT-Modul: unknown compiler"
 #endif
-    OneSecond=F_CPU/(SWT_TIMER_PRESCALE_VALUE*SWT_TICKS_NEEDED);
+    t = F_CPU/((DWORD)SWT_TIMER_PRESCALE_VALUE*(DWORD)SWT_TICKS_NEEDED);
+    if ( t==0 || t>65535 )
+    {
+	DBG_PUTS("second not possible\n");
+    }
+    OneSecond = (WORD)t;
+    t = F_CPU*(DWORD)60;
+    t = t / ((DWORD)SWT_TIMER_PRESCALE_VALUE*(DWORD)SWT_TICKS_NEEDED);
+    if ( t==0 || t>65535 )
+    {
+	DBG_PUTS("minute not possible\n");
+	OneMinute = 0xFFFF;
+    }
+    else
+        OneMinute = (WORD)t;
 
     leaveCritical();
 }
