@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: remote_protocol.c,v 1.2 2007/08/30 18:19:41 jdesch Exp $
+ * $Id: remote_protocol.c,v 1.3 2008/04/14 04:24:35 jdesch Exp $
  * -----------------------------------------------------------------------
  * Copyright (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -216,7 +216,7 @@ void rp_ParseCommand ( void )
                     if ( v24HaveData() )
 			break;
 		    else
-			cpuDelay(DEL_10MS);
+			cpuDelay_ms(10);
                 }
                 if ( wTmp==0 )
 		{

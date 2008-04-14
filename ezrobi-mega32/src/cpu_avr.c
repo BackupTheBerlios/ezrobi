@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: cpu_avr.c,v 1.6 2008/02/01 14:15:06 jdesch Exp $
+ * $Id: cpu_avr.c,v 1.7 2008/04/14 04:24:35 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -131,46 +131,57 @@ void cpuResetWatchDog (void)
 /*            `-------------------------------------------------'            */
 /* {{{ */
 
-/**
+/* Simple generation of millisecond delays. This function generates simple and
+ * nearly exact delay of #ms# microseconds. The resolution of the time (the
+ * ticks) is highly dependent on the frequency of the CPU (#F_CPU).
  *
- * @param time  delay as 10ms steps.
+ * The function doesn't use floating point calculations, and the rounding is
+ * done in a more or less dirty way.
+ *
+ * @param time_us  number of 1ms loops.
  */
-void cpuDelay ( unsigned int time )
+void cpuDelay_ms ( BYTE ms )
 {
-    unsigned int i, j;
-
-    for ( i=0; i<time; i++ )
-    {
-	cpuResetWatchDog();
-	for ( j=0; j<100; j++ )
-	    cpuDelay_us(100);
-    }
-    cpuResetWatchDog();
+    WORD cnt;
+    __asm__ __volatile__("L_dl1%=:     \n\t"    /* */
+                         "mov %A0, %A2 \n\t"    /* */
+                         "mov %B0, %B2 \n\n"    /* */
+                         "L_dl2%=:     \n\t"    /* */
+                         "sbiw %A0, 1  \n\t"    /* */
+                         "brne L_dl2%= \n\t"    /* */
+                         "dec %1       \n\t"    /* */
+                         "brne L_dl1%=     "    /* */
+                         :"=&w"(cnt)    /* Output %0 */
+                         :"r"(ms)       /* Input %1 */
+                         , "r"((WORD) (F_CPU / 4000))    /* Input %2 */
+        );
 }
 
 
-
-
-/** Very short delays. Generate a delay for a minimum of #time_us#
- * microseconds. The time resolution is dependent on the time the loop
- * takes e.g. with 4Mhz and 5 cycles per loop, the resolution is 1.25us.
+/* Simple generation of microsecond delays. This function generates simple and
+ * less exact delay of #time_us# microseconds. The resolution of the time (the
+ * ticks) is highly dependent on the frequency of the CPU (#F_CPU).
  *
- * TODO: 1000 loops are 1.42ms on a ATmega2560 !!!!
+ * For example: at 4Mhz, one loop takes 1.25us. At 7.38MHz, the loop takes
+ * 7.8us.
  *
- * @param time  delay as 1us steps.
+ * The function doesn't use floating point calculations, and the rounding is
+ * done in a more or less dirty way.
+ *
+ * @param time_us  number of 1us loops.
  */
-void cpuDelay_us ( unsigned short time_us )
+void cpuDelay_us ( WORD time_us )
 {
-    unsigned short delay_loops;
-    register unsigned short i;
+    WORD delay_loops;
+    delay_loops = (time_us+3)/4*CYCLES_PER_US; // +3 to do a simple round up
 
-    delay_loops = (time_us+3)/5*CYCLES_PER_US; // +3 for rounding up (dirty)
-
-    // one loop takes 5 cpu cycles
-    for (i=0; i<delay_loops; i++) 
-    	;
-
-    // TODO: 1000 loop sind 1,42ms !!!! ATmega2560
+    // this loop needs 4 cycles per iteration
+    __asm__ volatile (
+        "1: sbiw %0,1" "\n\t"
+        "brne 1b"
+        : "=w" (delay_loops)
+        : "0" (delay_loops)
+    );
 }
 
 /* }}} */

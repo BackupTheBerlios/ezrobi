@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: v24_single.c,v 1.1 2007/08/29 12:42:25 jdesch Exp $
+ * $Id: v24_single.c,v 1.2 2008/04/14 04:24:35 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -434,7 +434,7 @@ void v24PutByte ( BYTE num )
 static void __waitMS (void)
 /* {{{ */
 {
-    cpuDelay_us(1000);          // wait 1ms
+    cpuDelay_ms(1);          // wait 1ms
 }
 /* }}} */
 

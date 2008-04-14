@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: cpu_avr.h,v 1.4 2008/02/01 14:15:06 jdesch Exp $
+ * $Id: cpu_avr.h,v 1.5 2008/04/14 04:24:35 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -45,15 +45,6 @@
 /*+=========================================================================+*/
 /*|                      CONSTANT AND MACRO DEFINITIONS                     |*/
 /*`========================================================================='*/
-
-/* Definitions for the delay passed to cpuDelay()
- */
-#define DEL_10MS            1
-#define DEL_50MS            5
-#define DEL_100MS          10
-#define DEL_250MS          25
-#define DEL_500MS          50
-#define DEL_1000MS        100
 
 
 /* Some constants for timer configuration...
@@ -113,8 +104,8 @@ typedef WORD T_ADC;
 void cpuInitWatchDog (void);
 void cpuResetWatchDog (void);
 
-void cpuDelay (unsigned int time);
-void cpuDelay_us (unsigned short time_us);
+void cpuDelay_ms (BYTE time_ms);
+void cpuDelay_us (WORD time_us);
 
 void cpuInitADC (void);
 T_ADC cpuReadADC (BYTE Channel);
