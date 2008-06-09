@@ -1,6 +1,6 @@
 /* -*- Mode: C -*-
  *
- * $Id: v24_single.h,v 1.1 2007/08/29 12:42:25 jdesch Exp $
+ * $Id: v24_single.h,v 1.2 2008/06/09 07:55:04 jdesch Exp $
  * --------------------------------------------------------------------------
  * Copyright  (c) Dipl.-Ing. Joerg Desch
  * --------------------------------------------------------------------------
@@ -130,10 +130,6 @@ enum __V24_PARITY_FLAGS
 /*`========================================================================='*/
 
 void v24InitModule (void);
-void v24OpenPort ( BYTE MyOpenFlag );
-void v24ClosePort ( void );
-int  v24SetParameters ( DWORD Baudrate, BYTE Datasize, BYTE Parity );
-
 BOOL v24SetTimeouts ( int TenthOfSeconds );
 int  v24Getc ( void );
 int  v24GetQueue ( void );
